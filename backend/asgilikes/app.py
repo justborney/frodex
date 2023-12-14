@@ -1,6 +1,9 @@
 import falcon
 import falcon.asgi
 
+from .config import Config
+from .likes import AsyncLikesResource
+
 
 # Falcon follows the REST architectural style, meaning (among
 # other things) that you think in terms of resources and state
@@ -18,12 +21,18 @@ class ThingsResource:
         )
 
 
-# falcon.asgi.App instances are callable ASGI apps...
-# in larger applications the app is created in a separate file
-app = falcon.asgi.App()
+def create_app(config=None):
+    config = config or Config()
+    # falcon.asgi.App instances are callable ASGI apps...
+    # in larger applications the app is created in a separate file
+    app = falcon.asgi.App()
 
-# Resources are represented by long-lived class instances
-things = ThingsResource()
+    # Resources are represented by long-lived class instances
+    things = ThingsResource()
+    async_likes_resource = AsyncLikesResource()
 
-# things will handle all requests to the '/things' URL path
-app.add_route('/things', things)
+    # things will handle all requests to the '/things' URL path
+    app.add_route('/things', things)
+    app.add_route('/alikes', async_likes_resource)
+
+    return app
