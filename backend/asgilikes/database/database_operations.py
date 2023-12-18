@@ -1,3 +1,5 @@
+import json
+
 import asyncpg
 
 from falcon import HTTPInternalServerError
@@ -26,19 +28,16 @@ async def connect_to_postgres():
     )
 
 
-def increment_likes_in_database_async(like_data):
-    app.send_task('tasks.increment_likes', args=[like_data])
-
-
-@app.task
 async def get_likes_async():
     conn = await connect_to_postgres()
 
     try:
-        query = "SELECT COUNT(*) FROM likes;"
-        result = await conn.fetchval(query)
+        query = "SELECT post, likes FROM likes;"
+        result = await conn.fetch(query)
 
-        return result
+        likes_data = json.dumps([{"post": str(row['post']), "likes": row['likes']} for row in result])
+
+        return likes_data
 
     except Exception as e:
         raise HTTPInternalServerError(description=str(e))
@@ -47,3 +46,17 @@ async def get_likes_async():
         await conn.close()
 
 
+@app.task
+async def increment_likes_async(like_data):
+    print(like_data)
+    conn = await connect_to_postgres()
+
+    try:
+        query = "INSERT INTO likes (post, likes) VALUES ($1, 1) ON CONFLICT (post) DO UPDATE SET likes = likes + 1;"
+        await conn.execute(query, like_data['post'])
+
+    except Exception as e:
+        raise HTTPInternalServerError(description=str(e))
+
+    finally:
+        await conn.close()
