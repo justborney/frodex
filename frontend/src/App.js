@@ -15,7 +15,11 @@ const App = () => {
       }
     };
 
-    setInterval(() => fetchPosts(), 5000);
+    fetchPosts();
+
+    const interval = setInterval(fetchPosts, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const likePost = async (postId) => {
@@ -33,7 +37,7 @@ const App = () => {
   return (
     <div>
       {posts && posts.sort((a, b)=> a.post < b.post).map((item) => (
-        <div key={item.post} style={{margin: "10px"}}>
+        <div key={item.post}>
           <p>{item.post}</p>
           <button onClick={() => likePost(item.post)}>Лайкнуть</button>
           <p>Count: {item.likes}</p>
