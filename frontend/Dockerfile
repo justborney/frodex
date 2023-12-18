@@ -1,14 +1,12 @@
 FROM node:20-alpine as builder
 
-ENV APP_HOME=/frodex_likes/frontend
+ENV APP_HOME=/usr/src/frodex_likes/frontend
 
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 
-COPY ./package*.json $APP_HOME/
+COPY . $APP_HOME/
 
 RUN npm install
 
-COPY . $APP_HOME/
-
-CMD ["npm","start"]
+CMD ["npm", "run", "start"]

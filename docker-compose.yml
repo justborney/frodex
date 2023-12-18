@@ -37,9 +37,6 @@ services:
     build:
       context: ./frontend
       dockerfile: ./Dockerfile
-    volumes:
-      - ./frontend:/frodex_likes
-      - /frontend/node_modules
     environment:
       - CELERY_BROKER=redis://redis:6379/0
       - CELERY_BACKEND=redis://redis:6379/0

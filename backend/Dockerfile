@@ -15,3 +15,6 @@ RUN pip3 install -r $APP_HOME/requirements.txt
 
 COPY . .
 COPY .env .
+
+RUN mkdir -p /logs
+RUN echo "." > logs/celery.log
