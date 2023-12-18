@@ -1,6 +1,4 @@
-import psycopg2
 from falcon.errors import HTTPInternalServerError
-from psycopg2 import sql
 from celery import Celery
 
 

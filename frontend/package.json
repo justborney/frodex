@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server .",
-    "build": "Webpack .",
+    "build": "webpack .",
     "test": "test"
   },
   "dependencies": {
+    "n": "^9.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
