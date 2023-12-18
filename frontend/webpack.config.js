@@ -29,6 +29,7 @@ module.exports = {
      */
     target: "web",
     devServer: {
+        allowedHosts: "all",
         /** "port"
          * port of dev server
          */
@@ -51,7 +52,6 @@ module.exports = {
          * disable live reload on the browser. "hot" must be set to false for this to work
          */
         liveReload: true,
-        allowedHosts: '*',
     },
     resolve: {
         /** "extensions"
