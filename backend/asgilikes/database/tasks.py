@@ -22,8 +22,8 @@ async def connect_to_postgres():
         user=POSTGRES_USER,
         password=POSTGRES_PASSWORD,
         database=POSTGRES_DB,
-        host=PG_HOST,  #
-        port=PG_PORT,  #
+        host=PG_HOST,
+        port=PG_PORT,
     )
 
 
@@ -47,7 +47,6 @@ async def get_likes_async():
 
 @app.task
 async def increment_likes_async(like_data):
-    print(like_data)
     conn = await connect_to_postgres()
 
     try:

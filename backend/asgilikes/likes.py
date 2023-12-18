@@ -1,6 +1,6 @@
 import falcon
 
-from .database.database_operations import get_likes_async, increment_likes_async
+from .database.tasks import get_likes_async, increment_likes_async
 
 
 class AsyncLikesResource:

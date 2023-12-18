@@ -13,6 +13,13 @@
 
 ## Launching
 ```bash
+cd backend
+cp .env.example .env
+```
+
+
+
+```bash
 docker compose -f docker-compose.yml -p frodex up -d --build
 ```
 

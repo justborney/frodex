@@ -18,12 +18,22 @@ const App = () => {
     setInterval(() => fetchPosts(), 5000);
   }, []);
 
-  const likePost = async (postId) => await post_like(postId);
+  const likePost = async (postId) => {
+    try {
+      await post_like(postId);
+      setPosts(posts.map((item) => ({
+        ...item,
+        likes: item.post === postId ? (item.likes + 1) : item.likes
+      })))
+    } catch (err) {
+      console.error(err)
+    }
+  };
 
   return (
     <div>
-      {posts && posts.sort((a,b) => a.post < b.post).map((item) => (
-        <div key={item.post}>
+      {posts && posts.sort((a, b)=> a.post < b.post).map((item) => (
+        <div key={item.post} style={{margin: "10px"}}>
           <p>{item.post}</p>
           <button onClick={() => likePost(item.post)}>Лайкнуть</button>
           <p>Count: {item.likes}</p>
