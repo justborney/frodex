@@ -1,9 +1,8 @@
 import json
 
 import asyncpg
-
-from falcon import HTTPInternalServerError
 from celery import Celery
+from falcon import HTTPInternalServerError
 
 from ..config_data.read_env import (
     POSTGRES_USER,
@@ -23,8 +22,8 @@ async def connect_to_postgres():
         user=POSTGRES_USER,
         password=POSTGRES_PASSWORD,
         database=POSTGRES_DB,
-        host='localhost',
-        port='5432',
+        host=PG_HOST,  #
+        port=PG_PORT,  #
     )
 
 
@@ -52,7 +51,7 @@ async def increment_likes_async(like_data):
     conn = await connect_to_postgres()
 
     try:
-        query = "INSERT INTO likes (post, likes) VALUES ($1, 1) ON CONFLICT (post) DO UPDATE SET likes = likes + 1;"
+        query = "UPDATE likes SET likes = likes + 1 WHERE post = $1;"
         await conn.execute(query, like_data['post'])
 
     except Exception as e:

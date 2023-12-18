@@ -21,7 +21,7 @@ services:
 
   celery:
     image: api
-    command: celery -A asgilikes.database.database_operations worker --loglevel=info  --logfile=logs/celery.log
+    command: celery -A asgilikes.database.database_operations worker --loglevel=info --logfile=logs/celery.log
     volumes:
       - ./backend:/usr/src/frodex_likes/backend
     env_file:

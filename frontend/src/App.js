@@ -1,36 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import {get_posts, post_like} from './service';
 
 const App = () => {
-  const [likes, setLikes] = useState(0);
-
-  const handleLikeClick = async () => {
-    // Increment local like counter
-    setLikes(likes + 1);
-
-    // Send request to the backend to process the like
-    await fetch('http://localhost:8000/api/likes', {
-      method: 'POST',
-      // Additional headers and body can be added here
-    });
-  };
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchLikes = async () => {
-      // Fetch likes from the backend every 5 seconds
-      const response = await fetch('http://localhost:8000/api/likes');
-      const data = await response.json();
-      setLikes(data.likes);
+    const fetchPosts = async () => {
+      try {
+        const postsData = await get_posts();
+
+        setPosts(postsData);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
     };
 
-    const intervalId = setInterval(fetchLikes, 5000);
-
-    return () => clearInterval(intervalId);
+    setInterval(() => fetchPosts(), 5000);
   }, []);
+
+  const likePost = async (postId) => await post_like(postId);
 
   return (
     <div>
-      <p>Likes: {likes}</p>
-      <button onClick={handleLikeClick}>Like</button>
+      {posts && posts.sort((a,b) => a.post < b.post).map((item) => (
+        <div key={item.post}>
+          <p>{item.post}</p>
+          <button onClick={() => likePost(item.post)}>Лайкнуть</button>
+          <p>Count: {item.likes}</p>
+        </div>
+      ))}
     </div>
   );
 };

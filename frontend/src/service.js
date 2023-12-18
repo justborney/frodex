@@ -1,9 +1,16 @@
 export const get_posts = async () => {
-    return await fetch('http://localhost:8080/api/getPosts')
+    const suka = await fetch('http://localhost:8001/api/likes');
+    return suka.json();
 }
 
 export const post_like = async (uuid) => {
-    return await fetch(`http://localhost:8080/api/like/${uuid}`, {
+    return await fetch('http://localhost:8001/api/likes', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+        post: uuid,
+      }),
     })
 }
