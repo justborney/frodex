@@ -17,4 +17,3 @@ COPY . .
 COPY .env .
 
 RUN mkdir -p /logs
-RUN echo "." > logs/celery.log
