@@ -28,6 +28,6 @@ docker compose -f docker-compose.yml -p frodex up -d --build
 
 ## Methods
 
-GET http://localhost:8001/likes
+GET http://localhost:8001/api/likes
 
-POST http://localhost:8001/likes
+POST http://localhost:8001/api/likes
